@@ -1,9 +1,5 @@
 pipeline {
     agent any
-    
-        tools {
-        nodejs "node18"
-    }
 
     environment {
         // 'vercel_token' must be a Jenkins Secret Text credential
