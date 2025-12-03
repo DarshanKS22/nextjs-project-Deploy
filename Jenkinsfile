@@ -2,13 +2,14 @@ pipeline {
     agent any
 
     environment {
+        // 'vercel_token' must be a Jenkins Secret Text credential
         VERCEL_TOKEN = credentials('vercel_token')
     }
 
     stages {
         stage('Install') {
             steps {
-                bat 'npm install'
+                sh 'npm install'
             }
         }
         stage('Test') {
@@ -18,12 +19,13 @@ pipeline {
         }
         stage('Build') {
             steps {
-                bat 'npm run build'
+                sh 'npm run build'
             }
         }
         stage('Deploy') {
             steps {
-                bat 'npx vercel --prod --yes --token=%VERCEL_TOKEN%'
+                // use $VERCEL_TOKEN on Unix-like shells
+                sh 'npx vercel --prod --yes --token="$VERCEL_TOKEN"'
             }
         }
     }
